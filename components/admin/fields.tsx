@@ -66,8 +66,12 @@ export function ImageField({
     if (!file) return;
     const data = new FormData();
     data.set("file", file);
-    const url = await uploadImageAction(data);
-    onChange(url);
+    try {
+      const url = await uploadImageAction(data);
+      onChange(url);
+    } catch (error) {
+      window.alert(error instanceof Error ? error.message : "Could not upload the image.");
+    }
   }
 
   return (
