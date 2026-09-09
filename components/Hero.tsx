@@ -4,11 +4,11 @@ export default function Hero({ content }: { content: SiteContent["hero"] }) {
   return (
     <section
       id="home"
-      className="relative flex min-h-[min(100dvh,calc(100svh*0.78))] flex-col text-white min-[480px]:min-h-[min(100dvh,calc(100svh*0.84))] md:min-h-[min(100dvh,calc(100svh*0.9))] lg:min-h-[min(100dvh,calc(100svh*0.96))] xl:min-h-[min(100dvh,100svh)]"
+      className="image-grow-frame relative flex min-h-[min(100dvh,calc(100svh*0.78))] flex-col overflow-hidden text-white min-[480px]:min-h-[min(100dvh,calc(100svh*0.84))] md:min-h-[min(100dvh,calc(100svh*0.9))] lg:min-h-[min(100dvh,calc(100svh*0.96))] xl:min-h-[min(100dvh,100svh)]"
       aria-label="Homepage hero"
     >
       <div
-        className="absolute inset-0 z-0 bg-[#1a120e] bg-cover bg-center"
+        className="image-grow absolute inset-0 z-0 bg-[#1a120e] bg-cover bg-center"
         style={{ backgroundImage: `url('${content.backgroundImage}')` }}
         aria-hidden="true"
       />

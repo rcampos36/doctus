@@ -53,13 +53,15 @@ export default function About({ content }: { content: SiteContent["about"] }) {
           </p>
         </header>
 
-        <div
-          className="about-us-panel relative flex min-h-[20rem] flex-col overflow-hidden rounded-[1.5rem] bg-cover bg-center bg-no-repeat p-3 shadow-[0_1px_0_rgb(0_0_0/0.04)] sm:min-h-[26rem] sm:rounded-[2rem] sm:p-5 md:min-h-[28rem] md:flex-row md:items-stretch md:gap-5 md:p-5 lg:min-h-[32rem] lg:gap-6 lg:p-6 xl:min-h-[34rem] xl:p-8"
-          style={{
-            backgroundImage: `url('${content.backgroundImage}')`,
-            backgroundPosition: "center right",
-          }}
-        >
+        <div className="about-us-panel image-grow-frame relative flex min-h-[20rem] flex-col overflow-hidden rounded-[1.5rem] bg-[#1a120e] p-3 shadow-[0_1px_0_rgb(0_0_0/0.04)] sm:min-h-[26rem] sm:rounded-[2rem] sm:p-5 md:min-h-[28rem] md:flex-row md:items-stretch md:gap-5 md:p-5 lg:min-h-[32rem] lg:gap-6 lg:p-6 xl:min-h-[34rem] xl:p-8">
+          <div
+            className="image-grow absolute inset-0 bg-cover bg-no-repeat"
+            style={{
+              backgroundImage: `url('${content.backgroundImage}')`,
+              backgroundPosition: "center right",
+            }}
+            aria-hidden="true"
+          />
           <span className="sr-only">About Us</span>
           <div
             className="about-us-panel-spacer mb-4 min-h-[9rem] shrink-0 sm:mb-6 sm:min-h-[14rem] md:order-2 md:mb-0 md:min-h-0 md:flex-1"
@@ -74,9 +76,9 @@ export default function About({ content }: { content: SiteContent["about"] }) {
                 ))}
             </div>
             <div className="order-first shrink-0 md:order-none">
-              <div className="relative h-[7.25rem] w-[5rem] overflow-hidden rounded-lg border-2 border-white shadow-sm sm:h-[9.5rem] sm:w-28">
+              <div className="image-grow-frame relative h-[7.25rem] w-[5rem] overflow-hidden rounded-lg border-2 border-white shadow-sm sm:h-[9.5rem] sm:w-28">
                 <img
-                  className="h-full w-full object-cover object-top"
+                  className="image-grow h-full w-full object-cover object-top"
                   src={content.headshot}
                   alt={content.headshotAlt}
                 />
@@ -136,7 +138,7 @@ export default function About({ content }: { content: SiteContent["about"] }) {
           <div className="w-full min-w-0 overflow-hidden" ref={viewportRef}>
             <div
               ref={trackRef}
-              className="flex will-change-transform"
+              className="flex"
               style={{
                 gap,
                 transform: `translate3d(-${offset}px, 0, 0)`,
@@ -162,9 +164,9 @@ export default function About({ content }: { content: SiteContent["about"] }) {
                         <span className="text-paragraph-gray">, {item.role}</span>
                       </footer>
                     </blockquote>
-                    <div className="mt-auto overflow-hidden border-t border-black/[0.06] bg-[#d8d8d8]">
+                    <div className="image-grow-frame mt-auto overflow-hidden border-t border-black/[0.06] bg-[#d8d8d8]">
                       <img
-                        className="aspect-[3/2] w-full object-cover object-center"
+                        className="image-grow block aspect-[3/2] h-full w-full object-cover object-center"
                         src={item.image}
                         alt={item.name}
                       />

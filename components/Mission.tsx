@@ -65,10 +65,10 @@ export default function Mission({ content }: { content: SiteContent["mission"] }
                 {current.extra ? <span className="mt-4 block sm:mt-6">{current.extra}</span> : null}
               </h3>
             </article>
-            <div className="overflow-hidden rounded-[1rem] bg-[#d7dfe2]">
+            <div className="image-grow-frame overflow-hidden rounded-[1rem] bg-[#d7dfe2]">
               <img
                 key={current.image}
-                className="animate-fade-in h-52 w-full object-cover object-[60%_center] sm:h-72 lg:h-[328px]"
+                className="image-grow animate-fade-in h-52 w-full object-cover object-[60%_center] sm:h-72 lg:h-[328px]"
                 src={current.image}
                 alt={current.alt}
               />

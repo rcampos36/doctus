@@ -143,3 +143,28 @@ body {
     transition: none;
   }
 }
+
+.image-grow {
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform 1.35s cubic-bezier(0.37, 0, 0.63, 1);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.image-grow-frame {
+  transform: translateZ(0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .image-grow-frame:hover > .image-grow,
+  img.image-grow:hover {
+    transform: scale(1.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-grow {
+    transition: none;
+  }
+}

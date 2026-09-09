@@ -53,16 +53,16 @@ export default function Services({ content }: { content: SiteContent["services"]
           </article>
 
           <div className="services-image relative order-1 min-w-0 overflow-hidden rounded-[1.25rem] lg:order-2 lg:w-[60%] lg:overflow-visible">
-            <div className="overflow-hidden rounded-[1.25rem] bg-[#d7d5d2]">
+            <div className="image-grow-frame overflow-hidden rounded-[1.25rem] bg-[#d7d5d2]">
               <img
-                className="block h-full min-h-[16rem] w-full object-cover object-center sm:min-h-[22rem] lg:min-h-[30rem]"
+                className="image-grow block h-full min-h-[16rem] w-full object-cover object-center sm:min-h-[22rem] lg:min-h-[30rem]"
                 src={content.idealImage}
                 alt={content.title}
               />
             </div>
             {content.highlightImage ? (
               <img
-                className="pointer-events-none absolute bottom-2 left-2 z-20 h-24 w-auto max-w-[42%] sm:bottom-3 sm:left-3 sm:h-36 lg:bottom-4 lg:-left-24 lg:h-56 lg:max-w-none"
+                className="image-grow absolute bottom-2 left-2 z-20 h-24 w-auto max-w-[42%] sm:bottom-3 sm:left-3 sm:h-36 lg:bottom-4 lg:-left-24 lg:h-56 lg:max-w-none"
                 src={content.highlightImage}
                 alt=""
               />
@@ -72,9 +72,9 @@ export default function Services({ content }: { content: SiteContent["services"]
 
         <div className="services-panel mt-16 flex flex-col gap-6 rounded-[1.5rem] sm:mt-24 lg:mt-36 lg:flex-row lg:items-stretch">
           <div className="services-image relative order-1 min-w-0 overflow-hidden rounded-[1.25rem] lg:w-[60%]">
-            <div className="overflow-hidden rounded-[1.25rem] bg-[#d7d5d2]">
+            <div className="image-grow-frame overflow-hidden rounded-[1.25rem] bg-[#d7d5d2]">
               <img
-                className="block h-full min-h-[16rem] w-full object-cover object-center sm:min-h-[22rem] lg:min-h-[30rem]"
+                className="image-grow block h-full min-h-[16rem] w-full object-cover object-center sm:min-h-[22rem] lg:min-h-[30rem]"
                 src={content.expectImage}
                 alt={content.expectTitle}
               />
