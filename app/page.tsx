@@ -4,6 +4,7 @@ import Services from "@/components/Services";
 import Mission from "@/components/Mission";
 import FAQ from "@/components/FAQ";
 import About from "@/components/About";
+import Plans from "@/components/Plans";
 import Footer from "@/components/Footer";
 import { getSiteContent } from "@/lib/cms/store";
 
@@ -28,6 +29,7 @@ export default async function Home() {
         <Mission content={content.mission} />
         <FAQ content={content.faq} />
         <About content={content.about} />
+        <Plans content={content.plans} />
       </main>
       <Footer content={content.footer} navLinks={content.header.navLinks} />
     </div>

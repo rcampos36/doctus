@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { saveContentAction } from "@/app/actions/content";
 import { Card, ImageField, TextAreaField, TextField } from "@/components/admin/fields";
+import { ensurePlansContent } from "@/lib/cms/normalize";
 import { CONTENT_SECTIONS, type ContentSection, type SiteContent } from "@/lib/cms/types";
 
 type Props = {
@@ -15,7 +16,7 @@ function uid(prefix: string) {
 }
 
 export default function AdminEditor({ initialContent, initialSection }: Props) {
-  const [content, setContent] = useState(initialContent);
+  const [content, setContent] = useState(() => ensurePlansContent(initialContent));
   const [section, setSection] = useState<ContentSection>(initialSection || "header");
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [error, setError] = useState("");
@@ -29,7 +30,7 @@ export default function AdminEditor({ initialContent, initialSection }: Props) {
     setStatus("saving");
     setError("");
     try {
-      const saved = await saveContentAction(content);
+      const saved = await saveContentAction(ensurePlansContent(content));
       setContent(saved);
       setStatus("saved");
       window.setTimeout(() => setStatus("idle"), 2000);
@@ -733,6 +734,174 @@ export default function AdminEditor({ initialContent, initialSection }: Props) {
               }
             >
               Add testimonial
+            </button>
+          </div>
+        ) : null}
+
+        {section === "plans" ? (
+          <div className="grid gap-4">
+            <TextField
+              label="Badge"
+              value={content.plans.badge}
+              onChange={(badge) =>
+                setContent((c) => {
+                  const current = ensurePlansContent(c);
+                  return { ...current, plans: { ...current.plans, badge } };
+                })
+              }
+            />
+            <TextField
+              label="Title"
+              value={content.plans.title}
+              onChange={(title) =>
+                setContent((c) => {
+                  const current = ensurePlansContent(c);
+                  return { ...current, plans: { ...current.plans, title } };
+                })
+              }
+            />
+            {content.plans.plans.map((plan, index) => (
+              <Card
+                key={`plan-${index}`}
+                title={plan.name || `Plan ${index + 1}`}
+                onRemove={
+                  content.plans.plans.length > 1
+                    ? () =>
+                        setContent((c) => {
+                          const current = ensurePlansContent(c);
+                          return {
+                            ...current,
+                            plans: {
+                              ...current.plans,
+                              plans: current.plans.plans.filter((_, i) => i !== index),
+                            },
+                          };
+                        })
+                    : undefined
+                }
+              >
+                <TextField
+                  label="Name"
+                  value={plan.name}
+                  onChange={(name) =>
+                    setContent((c) => {
+                      const current = ensurePlansContent(c);
+                      const plans = [...current.plans.plans];
+                      plans[index] = { ...plans[index], name };
+                      return { ...current, plans: { ...current.plans, plans } };
+                    })
+                  }
+                />
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <TextField
+                    label="Price"
+                    value={plan.price}
+                    onChange={(price) =>
+                      setContent((c) => {
+                        const current = ensurePlansContent(c);
+                        const plans = [...current.plans.plans];
+                        plans[index] = { ...plans[index], price };
+                        return { ...current, plans: { ...current.plans, plans } };
+                      })
+                    }
+                  />
+                  <TextField
+                    label="Period"
+                    value={plan.period}
+                    onChange={(period) =>
+                      setContent((c) => {
+                        const current = ensurePlansContent(c);
+                        const plans = [...current.plans.plans];
+                        plans[index] = { ...plans[index], period };
+                        return { ...current, plans: { ...current.plans, plans } };
+                      })
+                    }
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <p className="text-[0.8125rem] font-medium text-text-dark">Features</p>
+                  {plan.features.map((feature, featureIndex) => (
+                    <div key={`feature-${index}-${featureIndex}`} className="flex items-center gap-2">
+                      <input
+                        className="mt-0 w-full rounded-[0.625rem] border border-[#260a0026] bg-white px-[0.875rem] py-[0.625rem] text-base leading-[1.45] text-text-dark shadow-[0_1px_#00000008] outline-none focus:border-[#c9510080] focus:shadow-[0_0_0_2px_#c9510026]"
+                        value={feature}
+                        onChange={(event) =>
+                          setContent((c) => {
+                            const current = ensurePlansContent(c);
+                            const plans = [...current.plans.plans];
+                            const features = [...plans[index].features];
+                            features[featureIndex] = event.target.value;
+                            plans[index] = { ...plans[index], features };
+                            return { ...current, plans: { ...current.plans, plans } };
+                          })
+                        }
+                      />
+                      {plan.features.length > 1 ? (
+                        <button
+                          type="button"
+                          className="shrink-0 text-[0.8125rem] font-medium text-primary"
+                          onClick={() =>
+                            setContent((c) => {
+                              const current = ensurePlansContent(c);
+                              const plans = [...current.plans.plans];
+                              plans[index] = {
+                                ...plans[index],
+                                features: plans[index].features.filter((_, i) => i !== featureIndex),
+                              };
+                              return { ...current, plans: { ...current.plans, plans } };
+                            })
+                          }
+                        >
+                          Remove
+                        </button>
+                      ) : null}
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    className="justify-self-start text-[0.8125rem] font-semibold text-primary"
+                    onClick={() =>
+                      setContent((c) => {
+                        const current = ensurePlansContent(c);
+                        const plans = [...current.plans.plans];
+                        plans[index] = {
+                          ...plans[index],
+                          features: [...plans[index].features, ""],
+                        };
+                        return { ...current, plans: { ...current.plans, plans } };
+                      })
+                    }
+                  >
+                    Add feature
+                  </button>
+                </div>
+              </Card>
+            ))}
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-text-dark shadow-[0_1px_4px_rgb(0_0_0/0.08)]"
+              onClick={() =>
+                setContent((c) => {
+                  const current = ensurePlansContent(c);
+                  return {
+                    ...current,
+                    plans: {
+                      ...current.plans,
+                      plans: [
+                        ...current.plans.plans,
+                        {
+                          name: "New plan",
+                          price: "$0",
+                          period: "/month",
+                          features: [""],
+                        },
+                      ],
+                    },
+                  };
+                })
+              }
+            >
+              Add plan
             </button>
           </div>
         ) : null}

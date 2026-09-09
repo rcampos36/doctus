@@ -2,7 +2,44 @@ export const navLinks = [
   { href: "#home", label: "Home" },
   { href: "#services", label: "Services" },
   { href: "#about", label: "About" },
+  { href: "#plans", label: "Plans" },
   { href: "#contact", label: "Contact Us" },
+] as const;
+
+export const pricingPlans = [
+  {
+    name: "Starter Plan",
+    price: "$499",
+    period: "/month",
+    features: [
+      "Discovery call and records review",
+      "Independent second-opinion consult",
+      "Written summary of findings",
+      "Guidance to discuss with your care team",
+    ],
+  },
+  {
+    name: "Growth Plan",
+    price: "$1,200",
+    period: "/month",
+    features: [
+      "Full health history and lab review",
+      "Personalized health roadmap",
+      "In-person or virtual plan review",
+      "Lab interpretation and plan updates",
+    ],
+  },
+  {
+    name: "Scale Plan",
+    price: "$2,500",
+    period: "/month",
+    features: [
+      "Ongoing physician access and support",
+      "Priority scheduling and follow-up",
+      "Advocacy and care-team coordination",
+      "Monitoring and supplement guidance",
+    ],
+  },
 ] as const;
 
 export const heroCards = [

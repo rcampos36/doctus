@@ -3,13 +3,22 @@ import { logoutAction } from "@/app/actions/auth";
 import AdminEditor from "@/components/admin/AdminEditor";
 import { getAdminSession } from "@/lib/auth";
 import { getSiteContent } from "@/lib/cms/store";
+import { CONTENT_SECTIONS, type ContentSection } from "@/lib/cms/types";
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ section?: string }>;
+}) {
   if (!(await getAdminSession())) {
     redirect("/admin/login");
   }
 
   const content = await getSiteContent();
+  const params = await searchParams;
+  const initialSection = CONTENT_SECTIONS.some((item) => item.id === params.section)
+    ? (params.section as ContentSection)
+    : undefined;
 
   return (
     <main className="page-gutter mx-auto w-full min-w-0 max-w-[1100px] pt-16 pb-16">
@@ -43,7 +52,7 @@ export default async function AdminPage() {
           </form>
         </div>
       </header>
-      <AdminEditor initialContent={content} />
+      <AdminEditor initialContent={content} initialSection={initialSection} />
     </main>
   );
 }

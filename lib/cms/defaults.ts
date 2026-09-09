@@ -6,6 +6,7 @@ import {
   idealFor,
   missionTabs,
   navLinks,
+  pricingPlans,
   testimonials,
 } from "@/lib/content";
 
@@ -80,6 +81,16 @@ export const defaultSiteContent: SiteContent = {
     testimonialsBadge: "Testimonials",
     testimonialsTitle: "What our people say",
     testimonials: testimonials.map((item) => ({ ...item })),
+  },
+  plans: {
+    badge: "Plans",
+    title: "Doctus Pricing Plans",
+    plans: pricingPlans.map((plan) => ({
+      name: plan.name,
+      price: plan.price,
+      period: plan.period,
+      features: [...plan.features],
+    })),
   },
   footer: {
     logo: "/images/logo.png",

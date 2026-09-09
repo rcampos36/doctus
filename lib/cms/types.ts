@@ -36,6 +36,13 @@ export type Testimonial = {
   image: string;
 };
 
+export type PricingPlan = {
+  name: string;
+  price: string;
+  period: string;
+  features: string[];
+};
+
 export type SiteContent = {
   header: {
     logo: string;
@@ -88,6 +95,11 @@ export type SiteContent = {
     testimonialsTitle: string;
     testimonials: Testimonial[];
   };
+  plans: {
+    badge: string;
+    title: string;
+    plans: PricingPlan[];
+  };
   footer: {
     logo: string;
     instagramUrl: string;
@@ -113,5 +125,6 @@ export const CONTENT_SECTIONS: { id: ContentSection; label: string; description:
   { id: "mission", label: "Mission", description: "Mission, vision, and bottom line tabs" },
   { id: "faq", label: "FAQ", description: "Frequently asked questions" },
   { id: "about", label: "About", description: "Doctor bio and testimonials" },
+  { id: "plans", label: "Plans", description: "Monthly pay plans and included features" },
   { id: "footer", label: "Footer", description: "Contact form copy and site details" },
 ];
