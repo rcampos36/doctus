@@ -1,4 +1,48 @@
-import type { SiteContent } from "@/lib/cms/types";
+import type { PricingPlan, SiteContent } from "@/lib/cms/types";
+
+function PlanDetails({ plan, tone }: { plan: PricingPlan; tone: "dark" | "light" }) {
+  const isLight = tone === "light";
+
+  return (
+    <>
+      <p className="flex flex-wrap items-start gap-x-2">
+        <span
+          className={`text-[clamp(3rem,6vw,4.25rem)] leading-none font-semibold tracking-[-0.04em] ${
+            isLight ? "text-text-dark" : "text-white"
+          }`}
+        >
+          {plan.price}
+        </span>
+        <span
+          className={`mt-2 text-[0.95rem] font-medium ${isLight ? "text-text-dark/70" : "text-white/75"}`}
+        >
+          {plan.period}
+        </span>
+      </p>
+      <h3
+        className={`mt-5 text-[1.35rem] leading-tight font-bold tracking-[-0.02em] ${
+          isLight ? "text-text-dark" : "text-white"
+        }`}
+      >
+        {plan.name}
+      </h3>
+      <ul className="mt-8 list-none p-0">
+        {plan.features.map((feature, featureIndex) => (
+          <li
+            key={`${feature}-${featureIndex}`}
+            className={`border-t py-4 text-[0.975rem] leading-[1.45] ${
+              isLight
+                ? "border-text-dark/20 text-text-dark last:border-b"
+                : "border-white/20 text-white/90"
+            }`}
+          >
+            {feature}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
 
 export default function Plans({ content }: { content: SiteContent["plans"] }) {
   if (!content?.plans?.length) return null;
@@ -26,32 +70,20 @@ export default function Plans({ content }: { content: SiteContent["plans"] }) {
           {content.plans.map((plan, index) => (
             <article
               key={`${plan.name}-${index}`}
-              className={`flex flex-col py-2 md:px-8 md:py-0 ${
+              className={`plan-card py-2 md:px-8 md:py-0 ${
                 index > 0
                   ? "border-t border-white/25 pt-10 md:border-t-0 md:border-l md:pt-0"
                   : ""
               } ${index < content.plans.length - 1 ? "pb-10 md:pb-0" : ""}`}
             >
-              <p className="flex flex-wrap items-start gap-x-2">
-                <span className="text-[clamp(3rem,6vw,4.25rem)] leading-none font-semibold tracking-[-0.04em] text-white">
-                  {plan.price}
-                </span>
-                <span className="mt-2 text-[0.95rem] font-medium text-white/75">{plan.period}</span>
-              </p>
-              <h3 className="mt-5 text-[1.35rem] leading-tight font-bold tracking-[-0.02em] text-white">
-                {plan.name}
-              </h3>
+              <div className="plan-card__base">
+                <PlanDetails plan={plan} tone="dark" />
+                <div className="plan-card__hover-spacer" aria-hidden="true" />
+              </div>
 
-              <ul className="mt-8 list-none p-0">
-                {plan.features.map((feature) => (
-                  <li
-                    key={feature}
-                    className="border-t border-white/20 py-4 text-[0.975rem] leading-[1.45] text-white/90"
-                  >
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+              <div className="plan-card__overlay md:px-8" aria-hidden="true">
+                <PlanDetails plan={plan} tone="light" />
+              </div>
             </article>
           ))}
         </div>
