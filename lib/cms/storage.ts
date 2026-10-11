@@ -40,14 +40,26 @@ export async function writeContentJson(json: string) {
   await writeFile(LOCAL_CONTENT_PATH, json, "utf8");
 }
 
+function isPrivateStoreError(error: unknown) {
+  return error instanceof Error && /private store/i.test(error.message);
+}
+
 export async function saveUploadedImage(filename: string, file: Blob) {
   if (usesBlobStorage()) {
-    const blob = await put(`uploads/${filename}`, file, {
-      access: "public",
+    const pathname = `uploads/${filename}`;
+    const options = {
       addRandomSuffix: false,
       contentType: file.type || undefined,
-    });
-    return blob.url;
+    } as const;
+
+    try {
+      const blob = await put(pathname, file, { ...options, access: "public" });
+      return blob.url;
+    } catch (error) {
+      if (!isPrivateStoreError(error)) throw error;
+      await put(pathname, file, { ...options, access: "private" });
+      return `/api/media/${pathname}`;
+    }
   }
 
   if (process.env.VERCEL) {
