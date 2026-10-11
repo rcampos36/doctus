@@ -40,7 +40,7 @@ export async function writeContentJson(json: string) {
   await writeFile(LOCAL_CONTENT_PATH, json, "utf8");
 }
 
-export async function saveUploadedImage(filename: string, file: File) {
+export async function saveUploadedImage(filename: string, file: Blob) {
   if (usesBlobStorage()) {
     const blob = await put(`uploads/${filename}`, file, {
       access: "public",
@@ -48,6 +48,12 @@ export async function saveUploadedImage(filename: string, file: File) {
       contentType: file.type || undefined,
     });
     return blob.url;
+  }
+
+  if (process.env.VERCEL) {
+    throw new Error(
+      "Image uploads on Vercel need a Blob store. Add BLOB_READ_WRITE_TOKEN in the project env and redeploy.",
+    );
   }
 
   await mkdir(LOCAL_UPLOADS_DIR, { recursive: true });
