@@ -5,13 +5,8 @@ import { saveUploadedImage } from "@/lib/cms/storage";
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
 const ALLOWED_EXTS = ["jpg", "jpeg", "png", "webp", "gif", "svg"];
 
-function isUploadFile(value: FormDataEntryValue | null): value is Blob & { name?: string } {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    typeof (value as Blob).arrayBuffer === "function" &&
-    typeof (value as Blob).size === "number"
-  );
+function isUploadFile(value: FormDataEntryValue | null): value is File {
+  return value instanceof File;
 }
 
 export async function POST(request: Request) {
